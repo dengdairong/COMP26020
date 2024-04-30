@@ -75,63 +75,66 @@ contract Supplier {
         r = Rental(rr);
         st = State.Working;
     }
-
-    function getRental() public view returns (address rentalAddr){
-        return address(r);
-    }
     
     function finish() external {
         require (st == State.Working);
         p.signal();
         st = State.Completed;
     }
-    
+
     function aquire_resource() external payable {
-        require(!hasResouce);
-        r.rent_out_resource.value(1 ether)();
+        require(!hasResouce,"already rental resouce");
+        r.rent_out_resource.value(msg.value)();
         hasResouce = true;
     }
 
     function return_resource() external {
-        require(hasResouce);
+        require(hasResouce,"not rental resouce");
         r.retrieve_resource();
         hasResouce = false;
     }
 
      // receive function to handle incoming ether
-    receive() external payable { }
+    event Receive(address,uint); 
+    receive() external payable { 
+        emit Receive(msg.sender, msg.value);
+    }
     // fallback function - where the magic happens
-    fallback() external payable { }
+    event Fallback(address,uint);
+    fallback() external payable { 
+        emit Fallback(msg.sender, msg.value);
+    }
+
+    function send() external payable returns (string memory ss){
+        return "转账成功";
+    }
 }
 
 contract Rental {
     address resource_owner;
     bool resource_available;
     uint deposit = 1 wei;
-    mapping(address=>uint) balanceOf;
+    // mapping (address=>uint) balanceOf;
     constructor() public {
         resource_available = true;
     }
     
     function rent_out_resource() external payable {  
-        require(resource_available == true);
+        require(resource_available == true,"resource already rental");
         //CHECK FOR PAYMENT HERE
-        balanceOf[msg.sender] = msg.value;
+        require(msg.value >= 1 wei, "LT 1 wei");
+        // balanceOf[msg.sender] = msg.value;
         resource_owner = msg.sender;
         resource_available = false;
     }
 
     function retrieve_resource() external {
-        require(resource_available == false && msg.sender == resource_owner);
+        require(resource_available == false && msg.sender == resource_owner,"resource not rental");
         //RETURN DEPOSIT HERE
-        // address payable x = payable(address(msg.sender));
-        // require(x.balance > deposit);
-        // x.transfer(balanceOf[msg.sender]);
+        address payable x = payable(address(msg.sender));
+        (bool success,) = x.call.value(address(this).balance)(abi.encodeWithSignature("receive()"));
+        require(success,"Transfer failed");
+        resource_owner = address(0);
         resource_available = true;
     }
-    
-    // receive function to handle incoming ether
-    receive() external payable { }
-    // fallback function - where the magic happens
-    fallback() external payable { }
 }
