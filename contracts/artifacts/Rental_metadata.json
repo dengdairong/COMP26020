@@ -1,0 +1,67 @@
+{
+	"compiler": {
+		"version": "0.6.0+commit.26b70077"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "rent_out_resource",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "retrieve_resource",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/supplier.sol": "Rental"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/paylock.sol": {
+			"keccak256": "0xca38d20cd21e070f137c7cc346fbe507cab53e0f0221a8f704e78e690bd6b38f",
+			"urls": [
+				"bzz-raw://6cf96bb9b7c2c376cfff2400f1f48c0c13cf2c3627daf32f6d29ff97314b5550",
+				"dweb:/ipfs/QmVWJVCrfYxfgY2BXBMMPL6u6haERT4gNpQKCMNKK993dp"
+			]
+		},
+		"contracts/supplier.sol": {
+			"keccak256": "0xb7c1cd90019d06ebd3aeb50f1e3965636e14b44a4a450af3062774b0795d9b2f",
+			"urls": [
+				"bzz-raw://79ba089f4dcbaad61f32679dc22f12e4c88b07f6782ae6ffcbe66c86fd0635cf",
+				"dweb:/ipfs/QmTrWHoe6ia8R6LFuMJ3x7PGZzEgq2JC2bL9aGdS3cHiCx"
+			]
+		}
+	},
+	"version": 1
+}
